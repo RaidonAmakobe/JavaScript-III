@@ -44,6 +44,18 @@ function dunkinSweets(donut) {
 const strawberry = new dunkinSweets('Strawberry Donut');
 const chocolate = new dunkinSweets('Chocolate Donut');
 
+//Another one
+
+function myCar(car) {
+    this.year = '2019';
+    this.car = car;
+    this.sale = function() {
+        console.log(`My ${this.car} was made in ${this.year}`);
+    };
+}
+
+const lambo = new myCar("Lambo");
+const rari = new myCar("Rari");
 // Principle 4
 
 // code example for Explicit Binding
