@@ -18,9 +18,16 @@
 function GameObject(createdAt, name, dimensions){
   this.createdAt = createdAt;
   this.name = name;
-  this.dimensions = dimensions;
+  this.length = dimensions.length;
+  this.width = dimensions.width;
+  this.height = dimensions.height;
 
 }
+
+GameObject.prototype.destroy = function () {
+  return `${this.name} was removed from the game.`;
+}
+
 /*
   === CharacterStats ===
   * healthPoints
@@ -28,8 +35,14 @@ function GameObject(createdAt, name, dimensions){
   * should inherit destroy() from GameObject's prototype
 */
 function CharacterStats(healthPoints) {
+  GameObject.call(this, healthPoints);
   this.healthPoints = healthPoints;
 }
+
+CharacterStats.prototype.takeDamage = function () {
+  return `${GameObject.name} took damage`;
+}
+
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
   * team
@@ -40,10 +53,11 @@ function CharacterStats(healthPoints) {
   * should inherit takeDamage() from CharacterStats
 */
 function Humanoid(team, weapons, language) {
+  GameObject.call(this, team, weapons, language);
+  CharacterStats.call(this, team, weapons, language);
   this.team = team;
   this.weapons = weapons;
   this.language = language;
-
 }
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -53,7 +67,7 @@ function Humanoid(team, weapons, language) {
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -114,9 +128,17 @@ function Humanoid(team, weapons, language) {
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+  function Hero() {
+    Humanoid.call(this);
+  }
+
+  function Villain() {
+    Humanoid.call(this);
+  }
