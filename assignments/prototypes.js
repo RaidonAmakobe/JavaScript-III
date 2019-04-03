@@ -15,12 +15,10 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(createdAt, name, dimensions){
-  this.createdAt = createdAt;
-  this.name = name;
-  this.length = dimensions.length;
-  this.width = dimensions.width;
-  this.height = dimensions.height;
+function GameObject(flavors){
+  this.createdAt = flavors.createdAt;
+  this.name = flavors.name;
+  this.dimensions = flavors.dimensions;
 
 }
 
@@ -34,11 +32,12 @@ GameObject.prototype.destroy = function () {
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
-function CharacterStats(healthPoints) {
-  GameObject.call(this, healthPoints);
-  this.healthPoints = healthPoints;
+function CharacterStats(stats) {
+  GameObject.call(this, stats);
+  this.healthPoints = stats.healthPoints;
+  this.name = stats.name;
 }
-
+CharacterStats.prototype = Object.create(GameObject.prototype);
 CharacterStats.prototype.takeDamage = function () {
   return `${GameObject.name} took damage`;
 }
@@ -52,12 +51,16 @@ CharacterStats.prototype.takeDamage = function () {
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
-function Humanoid(team, weapons, language) {
-  GameObject.call(this, team, weapons, language);
-  CharacterStats.call(this, team, weapons, language);
-  this.team = team;
-  this.weapons = weapons;
-  this.language = language;
+function Humanoid(traits) {
+  GameObject.call(this, traits);
+  CharacterStats.call(this, traits);
+  this.team = traits.team;
+  this.weapons = traits.weapons;
+  this.language = traits.language;
+}
+Humanoid.prototype = Object.create(CharacterStats.prototype);
+Humanoid.prototype.greet = function () {
+  return `${CharacterStats.name} offers a greeting in ${this.language}`
 }
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
